@@ -43,7 +43,7 @@ public class AlunoConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long ra = ((Aluno) value).getRegistroAluno();
+			Long ra = ((Aluno) value).getCodigo();
 			String retorno = (ra == null ? null : ra.toString());
 			
 			return retorno;
