@@ -1,15 +1,15 @@
 package br.com.erick.desafioalgaworks4.matricula.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import br.com.erick.desafioalgaworks4.matricula.dao.AlunoDAO;
-import br.com.erick.desafioalgaworks4.matricula.dao.DAO;
 
 @Entity
 @Table(name = "aluno")
@@ -18,41 +18,79 @@ public class Aluno implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long registroAluno;
+	@Column(name = "ra")
+	private Long codigo;
 
+	@Column(name = "nome")
 	private String nome;
 	
+	@Column(name = "email")
 	private String email;
 
-	public Long getRegistroAluno() {
-		return registroAluno;
+	@OneToMany(mappedBy = "aluno")
+	private List<Matricula> matriculas;
+	
+	public Aluno() {
+
+	}
+	
+	/**
+	 * @return the codigo
+	 */
+	public Long getCodigo() {
+		return codigo;
+	}
+	/**
+	 * @param codigo the codigo to set
+	 */
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
-	public void setRegistroAluno(Long registroAluno) {
-		this.registroAluno = registroAluno;
-	}
-
+	/**
+	 * @return the nome
+	 */
 	public String getNome() {
 		return nome;
 	}
-
+	/**
+	 * @param nome the nome to set
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * @return the email
+	 */
 	public String getEmail() {
 		return email;
 	}
-
+	/**
+	 * @param email the email to set
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	/**
+	 * @return the matriculas
+	 */
+	public List<Matricula> getMatriculas() {
+		return matriculas;
+	}
+	/**
+	 * @param matriculas the matriculas to set
+	 */
+	public void setMatriculas(List<Matricula> matriculas) {
+		this.matriculas = matriculas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((registroAluno == null) ? 0 : registroAluno.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 
@@ -65,10 +103,10 @@ public class Aluno implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		if (registroAluno == null) {
-			if (other.registroAluno != null)
+		if (codigo == null) {
+			if (other.codigo != null)
 				return false;
-		} else if (!registroAluno.equals(other.registroAluno))
+		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
 	}
