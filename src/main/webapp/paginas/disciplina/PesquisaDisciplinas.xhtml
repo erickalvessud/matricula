@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa de Disciplinas</ui:define>
+	
+	<ui:define name="corpo">
+		<h1>Pesquisa de Disciplinas</h1>
+		
+		<h:form id="frmPesquisa">
+		
+			<p:toolbar style="margin-top: 20px">
+	   			<p:toolbarGroup>
+	   				<p:commandButton id="botaoNovo" 
+	   					value="Novo" 
+	   					action="/paginas/disciplina/CadastroDisciplina.xhtml?faces-redirect=true"/>
+	   			</p:toolbarGroup>
+	   		</p:toolbar>
+	   		
+	   		<p:dataTable id="disciplinasDataTable" 
+				value="#{pesquisaDisciplinaBean.disciplinas}" var="disciplina"
+				style="margin-top: 20px" 
+				emptyMessage="Nenhuma disciplina encontrada.">
+	
+				<p:column headerText="Código"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{disciplina.codigo}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{disciplina.nome}" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="CadastroDisciplina" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="disciplina" value="#{disciplina.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaDisciplinaBean.disciplinaSelecionada}"
+							value="#{disciplina}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+	   		
+	   		<p:confirmDialog id="confirmacaoExclusaoDialog" 
+					widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja 
+	        			excluir a disciplina 
+	        			#{pesquisaDisciplinaBean.disciplinaSelecionada.nome}?"  
+	                header="Remover disciplina" severity="alert">
+	                
+	        	<p:button value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton value="Sim" 
+	        			update=":frmPesquisa:disciplinasDataTable"
+	        			onclick="PF('confirmacaoExclusao').hide()" 
+	        			action="#{pesquisaDisciplinaBean.excluir}" />
+	    	</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
