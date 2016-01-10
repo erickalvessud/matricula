@@ -110,5 +110,5 @@ public abstract class DAO<E> {
 	 * @return
 	 *       - A classe que representa a entidade criada.
 	 */
-	public abstract Class<E> getEntityClass();
+	protected abstract Class<E> getEntityClass();
 }
