@@ -6,7 +6,13 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 
 import br.com.erick.desafioalgaworks4.matricula.modelo.Aluno;
+import br.com.erick.desafioalgaworks4.matricula.modelo.Matricula;
 
+/**
+ * Camada de persistencia da entidade {@link Aluno}.
+ * @author Erick Alves
+ *
+ */
 public class AlunoDAO extends DAO<Aluno> {
 
 	@Inject
@@ -15,7 +21,7 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 	
 	@Override
-	public Class<Aluno> getEntityClass() {
+	protected Class<Aluno> getEntityClass() {
 		return Aluno.class;
 	}
 }
