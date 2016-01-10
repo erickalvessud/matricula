@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import org.primefaces.component.link.Link;
 import org.slf4j.Logger;
 
 import br.com.erick.desafioalgaworks4.matricula.service.NegocioException;
@@ -105,7 +106,7 @@ public abstract class DAO<E> {
 	}
 	
 	/**
-	 * Retorna a representacao da entidade que esse DAO representa.
+	 * Retorna o objeto {@link Class} da entidade que esse DAO representa.
 	 * @return
 	 *       - A classe que representa a entidade criada.
 	 */
