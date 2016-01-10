@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import org.primefaces.component.link.Link;
 import org.slf4j.Logger;
 
 import br.com.erick.desafioalgaworks4.matricula.service.NegocioException;
