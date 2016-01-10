@@ -2,7 +2,6 @@ package br.com.erick.desafioalgaworks4.matricula.dao;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
@@ -10,17 +9,38 @@ import org.slf4j.Logger;
 
 import br.com.erick.desafioalgaworks4.matricula.service.NegocioException;
 
+/**
+ * Classe abstrata DAO com métodos comuns de persistencia. 
+ * @author Erick Alves
+ */
 public abstract class DAO<E> {
 	
 	protected EntityManager entityManager;
 	
 	protected Logger logger;
 	
+	/**
+	 * Construtor.
+	 * Possui as dependencias de {@link EntityManager} e de {@link Logger}.
+	 * @param entityManager
+	 *      - Objeto responsavel pelo comunicacao com o banco de dados.
+	 * @param logger
+	 *      - Objeto para geracao de logs do sistema.
+	 */
 	public DAO(EntityManager entityManager, Logger logger){
 		this.entityManager = entityManager;
 		this.logger = logger;
 	}
 
+	/**
+	 * Busca uma entidade pelo seu identificador.
+	 * @param id
+	 *      - Identificador do registro que se deseja obter.
+	 * @return
+	 *      - Registro(Entidade) correspondente ao codigo passado.
+	 * @throws NegocioException
+	 *      Caso ocorra algum erro na busca do registro pelo codigo.
+	 */
 	public E buscarPorCodigo(Object id) throws NegocioException {
 		E retorno = null;
 		try {
@@ -32,6 +52,13 @@ public abstract class DAO<E> {
 		return retorno;
 	}
 	
+	/**
+	 * Persiste um registro no banco de dados.
+	 * @param entidade
+	 *      - Registro(Entidade) que se deseja persistir.
+	 * @throws NegocioException
+	 *      Caso ocorra alguma falha ao tentar persistir o registro.
+	 */
 	public void salvar(E entidade) throws NegocioException {
 		try {
 			this.entityManager.merge(entidade);
@@ -41,6 +68,13 @@ public abstract class DAO<E> {
 		}
 	}
 	
+	/**
+	 * Exclui um registro do banco de dados.
+	 * @param entidade
+	 *      - Registro(Entidade) que se deseja remover.
+	 * @throws NegocioException
+	 *      Caso ocorra alguma falha ao tentar excluir o dado.
+	 */
 	public void excluir(E entidade) throws NegocioException {
 		try {
 			entidade = this.entityManager.merge(entidade);
@@ -52,6 +86,14 @@ public abstract class DAO<E> {
 		}
 	}
 	
+	/**
+	 * Metodo realiza uma busca por todos os registros para essa entidade
+	 * retornando uma lista de objetos conforme persistidos no banco de dados.
+	 * @return
+	 *       - Lista com todos os registros de uma entidade.
+	 * @throws NegocioException
+	 * 		 Caso ocorra alguma falha na busca dos dados.
+	 */
 	public List<E> listarTodos() throws NegocioException {
 		try {
 			String jpql = "FROM " + this.getEntityClass().getSimpleName();
@@ -62,5 +104,10 @@ public abstract class DAO<E> {
 		}
 	}
 	
+	/**
+	 * Retorna a representacao da entidade que esse DAO representa.
+	 * @return
+	 *       - A classe que representa a entidade criada.
+	 */
 	public abstract Class<E> getEntityClass();
 }
