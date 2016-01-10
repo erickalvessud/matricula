@@ -41,7 +41,7 @@
 				<p:column style="width: 100px; text-align: center">
 					<p:button outcome="CadastroAluno" icon="ui-icon-pencil"
 						title="Editar">
-						<f:param name="aluno" value="#{aluno.registroAluno}" />
+						<f:param name="aluno" value="#{aluno.codigo}" />
 					</p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
 						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
