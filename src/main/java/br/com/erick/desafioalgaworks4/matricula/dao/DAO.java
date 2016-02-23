@@ -96,6 +96,7 @@ public abstract class DAO<E> {
 	 */
 	public List<E> listarTodos() throws NegocioException {
 		try {
+			this.logger.info("listando todos os registros para a entidade: ", this.getClass().getSimpleName());
 			String jpql = "FROM " + this.getEntityClass().getSimpleName();
 			return this.entityManager.createQuery(jpql, this.getEntityClass()).getResultList();
 		} catch (Exception e){
