@@ -25,11 +25,8 @@ public class Turma implements Serializable{
 	@OneToMany(mappedBy = "turma")
 	private List<Matricula> matriculas;
 	
-	@ManyToMany(mappedBy = "turmas")
-	private List<Disciplina> disciplinas;
-	
-	@ManyToMany(mappedBy = "turmas")
-	private List<Professor> professores;
+	@OneToMany(mappedBy = "turma")
+	private List<ProfessorTurmaDisciplina> professorTurmaDisciplina;
 	
 	public Turma() {
 
@@ -74,29 +71,11 @@ public class Turma implements Serializable{
 		this.matriculas = matriculas;
 	}
 
-	/**
-	 * @return the disciplinas
-	 */
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
-	}
-	/**
-	 * @param disciplinas the disciplinas to set
-	 */
-	public void setDisciplinas(List<Disciplina> disciplinas) {
-		this.disciplinas = disciplinas;
+	public List<ProfessorTurmaDisciplina> getProfessorTurmaDisciplina() {
+		return professorTurmaDisciplina;
 	}
 
-	/**
-	 * @return the professores
-	 */
-	public List<Professor> getProfessores() {
-		return professores;
-	}
-	/**
-	 * @param professores the professores to set
-	 */
-	public void setProfessores(List<Professor> professores) {
-		this.professores = professores;
+	public void setProfessorTurmaDisciplina(List<ProfessorTurmaDisciplina> professorTurmaDisciplina) {
+		this.professorTurmaDisciplina = professorTurmaDisciplina;
 	}
 }

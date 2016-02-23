@@ -3,6 +3,7 @@ package br.com.erick.desafioalgaworks4.matricula.service;
 import javax.inject.Inject;
 
 import br.com.erick.desafioalgaworks4.matricula.dao.DAO;
+import br.com.erick.desafioalgaworks4.matricula.dao.ProfessorDAO;
 import br.com.erick.desafioalgaworks4.matricula.modelo.Professor;
 
 /**
@@ -20,5 +21,9 @@ public class ProfessorService extends AbstractService<Professor> {
 	@Override
 	protected DAO<Professor> getDAO() {
 		return this.professorDAO;
+	}
+	
+	public Professor buscarProfessorComDisciplinas(Long registroProfessor) throws NegocioException{
+		return ((ProfessorDAO) this.professorDAO).buscarComDisciplinas(registroProfessor);
 	}
 }
