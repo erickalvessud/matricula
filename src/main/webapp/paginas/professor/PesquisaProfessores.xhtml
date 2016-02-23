@@ -1,0 +1,84 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="titulo">Pesquisa de Professores</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de Professores</h1>
+    	
+    	<h:form id="frmPesquisa">
+    	
+    		<p:toolbar style="margin-top: 20px">
+	   			<p:toolbarGroup>
+	   				<p:commandButton id="botaoNovo" 
+	   					value="Novo" 
+	   					action="/paginas/professor/CadastroProfessor.xhtml?faces-redirect=true"/>
+	   			</p:toolbarGroup>
+	   		</p:toolbar>
+	   		
+	   		<p:dataTable id="professoresDataTable" 
+				value="#{pesquisaProfessorBean.professores}" var="professor"
+				style="margin-top: 20px" 
+				emptyMessage="Nenhum professor encontrado.">
+	
+				<p:column headerText="Código"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{professor.codigo}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{professor.nome}" />
+				</p:column>
+				<p:column headerText="Disciplinas">
+					<p:commandButton icon="ui-icon-extlink" title="Disciplinas"
+						action="#{pesquisaProfessorBean.buscarProfessorComDisciplinas}"
+						process="@this" oncomplete="PF('mostrarDisciplinas').show()" update=":frmPesquisa:mostrarDisciplinasDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaProfessorBean.professorSelecionado}"
+							value="#{professor}" />
+					</p:commandButton>
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="CadastroProfessor" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="professor" value="#{professor.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaProfessorBean.professorSelecionado}"
+							value="#{professor}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+	   		
+	   		<p:confirmDialog id="confirmacaoExclusaoDialog" 
+					widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja 
+	        			excluir o professor 
+	        			#{pesquisaProfessorBean.professorSelecionado.nome}?"  
+	                header="Remover professor" severity="alert">
+	                
+	        	<p:button value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton value="Sim" 
+	        			update=":frmPesquisa:professoresDataTable"
+	        			onclick="PF('confirmacaoExclusao').hide()" 
+	        			action="#{pesquisaProfessorBean.excluir}" />
+	    	</p:confirmDialog>
+	    	
+	    	<p:dialog id="mostrarDisciplinasDialog" header="Disciplinas" widgetVar="mostrarDisciplinas" modal="true">
+	    		<p:dataList value="#{pesquisaProfessorBean.professorSelecionado.disciplinas}" var="disciplina" itemType="disc"
+	    			rendered="#{not empty pesquisaProfessorBean.professorSelecionado.disciplinas}">
+	    			#{disciplina.nome}
+	    		</p:dataList>
+	    	</p:dialog>
+    
+    	</h:form>
+    </ui:define>
+    
+</ui:composition>
