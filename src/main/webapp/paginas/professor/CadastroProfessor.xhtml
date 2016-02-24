@@ -10,8 +10,11 @@
 	
 	<ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="disciplina" 
-				value="#{cadastroDisciplinaBean.disciplina}" />
+			<o:viewParam name="professor" 
+				value="#{cadastroProfessorBean.professor}" />
+			<!-- o omnifaces ira acessar o converter para transformar a string 
+			recebida em objeto, nesse caso procurando o converter registrado 
+			para a classe Professor atraves da anotacao @FacesConverter(forClass) -->
 		</f:metadata>
 		
 		<h1>Novo Professor</h1>
@@ -45,7 +48,55 @@
 				<p:inputText id="nomeInputText" size="60" maxlength="80"
 					value="#{cadastroProfessorBean.professor.nome}" />
 			</p:panelGrid>
-		
+			
+			<p:commandButton id="addDisciplina" value="Adicionar Disciplina" 
+				action="#{cadastroProfessorBean.buscarDisciplinas}" 
+				process="@this" oncomplete="PF('tabelaDisciplinas').show()" 
+				update=":frmCadastro:disciplinasDialog"/>
+				
+			<p:dataTable id="disciplinasSelecionadasDataTable" 
+				value="#{cadastroProfessorBean.professor.disciplinas}"
+				var="disciplina"
+				style="margin-top: 20px;"
+				emptyMessage="Nenhuma disciplina encontrada.">
+				
+				<p:column headerText="Código" style="text-align: center; width: 20%">
+					<h:outputText value="#{disciplina.codigo}" />
+				</p:column>
+				<p:column headerText="Nome" style="text-align: center; width: 80%">
+					<h:outputText value="#{disciplina.nome}" />
+				</p:column>
+			</p:dataTable>
+			
+			<p:dialog id="disciplinasDialog" header="Disciplinas" 
+				widgetVar="tabelaDisciplinas" >
+				
+				<p:dataTable id="disciplinasDataTable" 
+					value="#{cadastroProfessorBean.disciplinas}" var="disciplina"
+					selection="#{cadastroProfessorBean.professor.disciplinas}"
+					rowKey="#{disciplina.codigo}"
+					style="margin-top: 20px; width: 400px;"
+					emptyMessage="Nenhuma disciplina encontrada.">
+					
+					<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+					
+					<p:column headerText="Código"
+						style="text-align: center; width: 20%">
+						<h:outputText value="#{disciplina.codigo}" />
+					</p:column>
+					<p:column headerText="Nome"
+						style="text-align: center; width: 80%">
+						<h:outputText value="#{disciplina.nome}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton process="disciplinasDataTable"
+							update=":frmCadastro:disciplinasSelecionadasDataTable"
+							value="Selecionar" oncomplete="PF('tabelaDisciplinas').hide()" />
+					</f:facet>
+				</p:dataTable>
+				
+			</p:dialog>
 		</h:form>
 	</ui:define>
 	

@@ -2,6 +2,7 @@ package br.com.erick.desafioalgaworks4.matricula.modelo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Disciplina {
 	
 	private String nome;
 	
-	@ManyToMany(mappedBy = "disciplinas")
+	@ManyToMany(mappedBy = "disciplinas", cascade = CascadeType.ALL)
 	private List<Professor> professores;
 	
 	@ManyToMany

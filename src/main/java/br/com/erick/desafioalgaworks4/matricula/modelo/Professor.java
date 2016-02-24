@@ -3,6 +3,7 @@ package br.com.erick.desafioalgaworks4.matricula.modelo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,14 +27,14 @@ public class Professor implements Serializable{
 	
 	private String nome;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "professor_disciplina", 
 		joinColumns = {@JoinColumn(name = "registro_professor", nullable = false)},
 		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", nullable = false)}
 	)
 	private List<Disciplina> disciplinas;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "professor_turma",
 		joinColumns = { @JoinColumn(name = "registro_professor", nullable = false)},
 		inverseJoinColumns = { @JoinColumn(name = "codigo_turma", nullable = false)}
@@ -99,5 +100,13 @@ public class Professor implements Serializable{
 	 */
 	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Professor [codigo=" + codigo + ", nome=" + nome + "]";
 	}
 }

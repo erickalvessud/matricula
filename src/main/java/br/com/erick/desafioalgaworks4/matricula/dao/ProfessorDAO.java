@@ -31,7 +31,7 @@ public class ProfessorDAO extends DAO<Professor> {
 	
 	public Professor buscarComDisciplinas(Long registroProfessor) throws NegocioException{
 		try {
-			Query query = super.entityManager.createQuery("SELECT p FROM Professor p JOIN p.disciplinas d WHERE p.codigo = :registroProfessor");
+			Query query = super.entityManager.createQuery("SELECT p FROM Professor p LEFT JOIN FETCH p.disciplinas d WHERE p.codigo = :registroProfessor");
 			query.setParameter("registroProfessor", registroProfessor);
 			return (Professor) query.getSingleResult();
 		} catch (NoResultException nre) {

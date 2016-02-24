@@ -44,6 +44,9 @@
 				<p:column style="width: 100px; text-align: center">
 					<p:button outcome="CadastroProfessor" icon="ui-icon-pencil"
 						title="Editar">
+						<!-- precisa de um converter de long para objeto Professor.
+						Como comportamento padrao, f:param envia o objeto m forma de texto, acessando o toString() do objeto. 
+						Nesse caso, estou enviando para uma tag do omnifaces o:param que da suporte para conversores -->
 						<f:param name="professor" value="#{professor.codigo}" />
 					</p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
