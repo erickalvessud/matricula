@@ -27,14 +27,14 @@ public class Professor implements Serializable{
 	
 	private String nome;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "professor_disciplina", 
 		joinColumns = {@JoinColumn(name = "registro_professor", nullable = false)},
 		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", nullable = false)}
 	)
 	private List<Disciplina> disciplinas;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "professor_turma",
 		joinColumns = { @JoinColumn(name = "registro_professor", nullable = false)},
 		inverseJoinColumns = { @JoinColumn(name = "codigo_turma", nullable = false)}

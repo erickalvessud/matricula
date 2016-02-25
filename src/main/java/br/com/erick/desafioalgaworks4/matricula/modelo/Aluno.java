@@ -3,6 +3,7 @@ package br.com.erick.desafioalgaworks4.matricula.modelo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Aluno implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-	@OneToMany(mappedBy = "aluno")
+	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
 	private List<Matricula> matriculas;
 	
 	public Aluno() {

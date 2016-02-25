@@ -22,10 +22,10 @@ public class Disciplina {
 	
 	private String nome;
 	
-	@ManyToMany(mappedBy = "disciplinas", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "disciplinas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Professor> professores;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "disciplina_turma", 
 		joinColumns = { @JoinColumn(name = "codigo_disciplina", nullable = false) },
 		inverseJoinColumns = { @JoinColumn(name = "codigo_turma", nullable = false) }
