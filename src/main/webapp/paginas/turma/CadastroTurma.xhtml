@@ -1,0 +1,75 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Nova Turma</ui:define>
+	
+	<ui:define name="corpo">
+		
+		<f:metadata>
+			<o:viewParam name="turma" 
+				value="#{cadastroTurmaBean.turma}" />
+		</f:metadata>
+		
+		<h1>Nova Turma</h1>
+		
+		<h:form id="frmCadastro">
+		
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton id="botaoSalvar" value="Salvar"
+						action="#{cadastroTurmaBean.salvar}" 
+						update="frmCadastro" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa"
+						outcome="/paginas/turma/PesquisaTurmas.xhtml?faces-redirect=true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:panelGrid id="painel" columns="2"
+				style="width: 100%; margin-top: 20px" 
+				columnClasses="rotulo, campo">
+				
+				<p:outputLabel id="codigoInputLabel" value="Código" for="codigoInputText" />
+				<p:inputText id="codigoInputText" size="20" maxlength="20"
+					value="#{cadastroTurmaBean.turma.codigo}" 
+					readonly="true" />
+
+				<p:outputLabel id="nomeInputLabel" value="Nome" for="nomeInputText" />
+				<p:inputText id="nomeInputText" size="60" maxlength="80"
+					value="#{cadastroTurmaBean.turma.nome}" />
+			</p:panelGrid>
+			
+			<p:dataTable id="disciplinasTurmaDataTable"
+				value="#{cadastroTurmaBean.turma.professorTurmaDisciplina}" 
+				var="professorTurmaDisciplina"
+				style="margin-top: 10px;"
+				emptyMessage="Nenhuma registro encontrado!">
+
+				<p:column headerText="Código da Disciplina" style="text-align: center; width: 15%">
+					<h:outputText value="#{professorTurmaDisciplina.disciplina.codigo}" />
+				</p:column>
+				
+				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 35%">
+					<h:outputText value="#{professorTurmaDisciplina.disciplina.nome}" />
+				</p:column>
+
+				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 15%">
+					<h:outputText value="#{professorTurmaDisciplina.professor.codigo}" />
+				</p:column>
+
+				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 35%">
+					<h:outputText value="#{professorTurmaDisciplina.professor.nome}" />
+				</p:column>
+			</p:dataTable>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

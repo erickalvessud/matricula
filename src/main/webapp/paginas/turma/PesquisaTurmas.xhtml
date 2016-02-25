@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-</body>
-</html>
+	<ui:define name="titulo">Pesquisa de Turmas</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Pesquisa de Turmas</h1>
+
+		<h:form id="frmPesquisa">
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton id="botaoNovo" value="Novo"
+						action="/paginas/turma/CadastroTurma.xhtml?faces-redirect=true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="turmasDataTable" 
+				value="#{pesquisaTurmaBean.turmas}" var="turma"
+				style="margin-top: 20px" 
+				emptyMessage="Nenhuma turma encontrada.">
+	
+				<p:column headerText="Código"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{turma.codigo}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{turma.nome}" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="CadastroTurma" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="turma" value="#{turma.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaTurmaBean.turmaSelecionada}"
+							value="#{turma}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+	   		
+	   		<p:confirmDialog id="confirmacaoExclusaoDialog" 
+					widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja 
+	        			excluir a turma 
+	        			#{pesquisaDisciplinaBean.disciplinaSelecionada.nome}?"  
+	                header="Remover Turma" severity="alert">
+	                
+	        	<p:button value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton value="Sim" 
+	        			update=":frmPesquisa:turmasDataTable"
+	        			onclick="PF('confirmacaoExclusao').hide()" 
+	        			action="#{pesquisaTurmaBean.excluir}" />
+	    	</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
