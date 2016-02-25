@@ -71,7 +71,7 @@ public class CadastroProfessorBean implements Serializable{
 	 * Lista todas as disciplinas cadastradas para serem escolhidas e vinculadas
 	 * a um professor.
 	 */
-	public void buscarDisciplinas(){
+	public void carregarDisciplinas(){
 		try {
 			
 			this.disciplinas = this.disciplinaService.listarTodos();
