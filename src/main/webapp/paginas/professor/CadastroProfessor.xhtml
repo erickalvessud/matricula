@@ -50,7 +50,7 @@
 			</p:panelGrid>
 			
 			<p:commandButton id="addDisciplina" value="Adicionar Disciplina" 
-				action="#{cadastroProfessorBean.buscarDisciplinas}" 
+				action="#{cadastroProfessorBean.carregarDisciplinas}" 
 				process="@this" oncomplete="PF('tabelaDisciplinas').show()" 
 				update=":frmCadastro:disciplinasDialog"/>
 				
