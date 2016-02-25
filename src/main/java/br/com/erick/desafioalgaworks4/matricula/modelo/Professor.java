@@ -34,11 +34,7 @@ public class Professor implements Serializable{
 	)
 	private List<Disciplina> disciplinas;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "professor_turma",
-		joinColumns = { @JoinColumn(name = "registro_professor", nullable = false)},
-		inverseJoinColumns = { @JoinColumn(name = "codigo_turma", nullable = false)}
-	)
+	@ManyToMany(mappedBy = "professores", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Turma> turmas;
 
 	/**
@@ -100,6 +96,37 @@ public class Professor implements Serializable{
 	 */
 	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Professor other = (Professor) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
