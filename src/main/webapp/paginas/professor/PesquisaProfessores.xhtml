@@ -12,6 +12,8 @@
     	
     	<h:form id="frmPesquisa">
     	
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
     		<p:toolbar style="margin-top: 20px">
 	   			<p:toolbarGroup>
 	   				<p:commandButton id="botaoNovo" 
@@ -27,13 +29,14 @@
 	
 				<p:column headerText="Código"
 					style="text-align: center; width: 100px">
-					<h:outputText value="#{professor.codigo}" />
+					<h:outputText id="codigoProfessor" value="#{professor.codigo}" />
 				</p:column>
 				<p:column headerText="Nome">
-					<h:outputText value="#{professor.nome}" />
+					<h:outputText id="nomeProfessor" value="#{professor.nome}" />
 				</p:column>
 				<p:column headerText="Disciplinas">
-					<p:commandButton icon="ui-icon-extlink" title="Disciplinas"
+					<p:commandButton id="btnMostrarDisciplinas" 
+						icon="ui-icon-extlink" title="Disciplinas"
 						action="#{pesquisaProfessorBean.buscarProfessorComDisciplinas}"
 						process="@this" oncomplete="PF('mostrarDisciplinas').show()" update=":frmPesquisa:mostrarDisciplinasDialog">
 						<f:setPropertyActionListener
@@ -42,15 +45,16 @@
 					</p:commandButton>
 				</p:column>
 				<p:column style="width: 100px; text-align: center">
-					<p:button outcome="CadastroProfessor" icon="ui-icon-pencil"
+					<p:button id="btnEditarProfessor" 
+						outcome="CadastroProfessor" icon="ui-icon-pencil"
 						title="Editar">
 						<!-- precisa de um converter de long para objeto Professor.
 						Como comportamento padrao, f:param envia o objeto m forma de texto, acessando o toString() do objeto. 
 						Nesse caso, estou enviando para uma tag do omnifaces o:param que da suporte para conversores -->
 						<f:param name="professor" value="#{professor.codigo}" />
 					</p:button>
-					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+					<p:commandButton id="btnExcluirProfessor" icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show()" process="professoresDataTable"
 						update=":frmPesquisa:confirmacaoExclusaoDialog">
 						<f:setPropertyActionListener
 							target="#{pesquisaProfessorBean.professorSelecionado}"
@@ -66,12 +70,14 @@
 	        			#{pesquisaProfessorBean.professorSelecionado.nome}?"  
 	                header="Remover professor" severity="alert">
 	                
-	        	<p:button value="Não" 
+	        	<p:button id="btnNaoDialogo" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	        	<p:commandButton value="Sim" 
+	        	<p:commandButton id="btnSimDialogo" value="Sim" 
 	        			update=":frmPesquisa:professoresDataTable"
+	        			process="confirmacaoExclusaoDialog"
 	        			onclick="PF('confirmacaoExclusao').hide()" 
 	        			action="#{pesquisaProfessorBean.excluir}" />
+	        			<!-- process envia na requisicao apenas os dados do componente que ele referencia -->
 	    	</p:confirmDialog>
 	    	
 	    	<p:dialog id="mostrarDisciplinasDialog" header="Disciplinas" widgetVar="mostrarDisciplinas" modal="true">

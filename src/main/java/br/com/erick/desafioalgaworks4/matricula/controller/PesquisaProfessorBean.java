@@ -39,7 +39,8 @@ public class PesquisaProfessorBean implements Serializable{
 	
 	public void buscarProfessorComDisciplinas(){
 		try {
-			this.professorSelecionado = this.professorService.buscarProfessorComDisciplinas(this.professorSelecionado.getCodigo());
+			this.professorSelecionado = this.professorService
+					.buscarProfessorComDisciplinas(this.professorSelecionado.getCodigo());
 		} catch (NegocioException e) {
 			FacesUtil.addErrorMessage("Listar professores com disciplinas: " 
 					+ e.getMessage());

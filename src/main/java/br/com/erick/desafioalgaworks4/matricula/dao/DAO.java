@@ -46,7 +46,7 @@ public abstract class DAO<E> {
 		try {
 			retorno = this.entityManager.find(this.getEntityClass(), id) ;
 		} catch (IllegalArgumentException e) {
-			this.logger.error(e.getMessage());
+			this.logger.error(e.getMessage(), e);
 			throw new NegocioException("Consulta não pode ser realizada");
 		}
 		return retorno;
@@ -63,7 +63,7 @@ public abstract class DAO<E> {
 		try {
 			this.entityManager.merge(entidade);
 		} catch (PersistenceException | IllegalArgumentException e) {
-			this.logger.error(e.getMessage());
+			this.logger.error(e.getMessage(), e);
 			throw new NegocioException("Dados não puderam ser salvos");
 		}
 	}
@@ -81,8 +81,8 @@ public abstract class DAO<E> {
 			this.entityManager.remove(entidade);
 			this.entityManager.flush();
 		} catch (PersistenceException | IllegalArgumentException e) {
-			this.logger.error(e.getMessage());
-			throw new NegocioException("Dados não puderam ser removidos");
+			this.logger.error(e.getMessage(), e);
+			throw new NegocioException("Dados não puderam ser removidos. Causa: " + e.getMessage());
 		}
 	}
 	
@@ -100,7 +100,7 @@ public abstract class DAO<E> {
 			String jpql = "FROM " + this.getEntityClass().getSimpleName();
 			return this.entityManager.createQuery(jpql, this.getEntityClass()).getResultList();
 		} catch (Exception e){
-			this.logger.error(e.getMessage());
+			this.logger.error(e.getMessage(), e);
 			throw new NegocioException("Falha ao tentar listar dados");
 		}
 	}
