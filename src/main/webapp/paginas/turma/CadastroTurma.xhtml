@@ -47,28 +47,71 @@
 					value="#{cadastroTurmaBean.turma.nome}" />
 			</p:panelGrid>
 			
-			<p:dataTable id="disciplinasTurmaDataTable"
-				value="#{cadastroTurmaBean.turma.professorTurmaDisciplina}" 
+			<p:commandButton id="btnAdicionaDisciplinas" 
+				value="Adicionar Disciplinas" 
+				action="#{cadastroTurmaBean.carregarDisciplinas}"
+				process="@this" oncomplete="PF('tabelaDisciplinasProfessores').show()" 
+				update=":frmCadastro:disciplinasProfessoresDialog"
+				style="margin-top: 10px"/>
+			
+			
+			<p:dataTable id="disciplinasSelecionadasDataTable"
+				value="#{cadastroTurmaBean.turma.professorTurmaDisciplinas}" 
 				var="professorTurmaDisciplina"
 				style="margin-top: 10px;"
 				emptyMessage="Nenhuma registro encontrado!">
 
-				<p:column headerText="Código da Disciplina" style="text-align: center; width: 15%">
+				<p:column headerText="Código da Disciplina" style="text-align: center; width: 10%">
 					<h:outputText value="#{professorTurmaDisciplina.disciplina.codigo}" />
 				</p:column>
 				
-				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 35%">
+				<p:column headerText="Disciplina" style="text-align: center; width: 40%">
 					<h:outputText value="#{professorTurmaDisciplina.disciplina.nome}" />
 				</p:column>
 
-				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 15%">
+				<p:column headerText="Registro do Professor" style="text-align: center; width: 10%">
 					<h:outputText value="#{professorTurmaDisciplina.professor.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome da Disciplina" style="text-align: center; width: 35%">
+				<p:column headerText="Professor" style="text-align: center; width: 40%">
 					<h:outputText value="#{professorTurmaDisciplina.professor.nome}" />
 				</p:column>
 			</p:dataTable>
+			
+			<p:dialog id="disciplinasProfessoresDialog" header="Disciplinas"
+				widgetVar="tabelaDisciplinasProfessores">
+				
+				<p:selectOneMenu id="comboDisciplinas" 
+						value="#{cadastroTurmaBean.disciplinaSelecionada}" 
+						style="width:125px">
+						
+		            <f:selectItem itemLabel="Disciplinas" itemValue="" />
+		            <f:selectItems value="#{cadastroTurmaBean.disciplinasSelectItem}" />
+		            
+		            <p:ajax event="change" update=":frmCadastro:comboProfessores" 
+		            	process=":frmCadastro:comboDisciplinas"
+        				listener="#{cadastroTurmaBean.carregarProfessoresPelaDisciplina}" />
+        			
+        			<!-- Cada selecao do combo ira chamar o DisciplinaConverter -->	
+        			
+		        </p:selectOneMenu>
+				
+				<p:selectOneMenu id="comboProfessores" 
+						value="#{cadastroTurmaBean.professorSelecionado}" 
+						style="width:125px">
+						
+		            <f:selectItem itemLabel="Professores" itemValue="" />
+		            <f:selectItems value="#{cadastroTurmaBean.professoresSelectItem}" />
+		            
+		        </p:selectOneMenu>
+				
+				<p:commandButton process="disciplinasProfessoresDialog"
+					update=":frmCadastro:disciplinasSelecionadasDataTable"
+					action="#{cadastroTurmaBean.adicionaProfessorTurmaDisciplina}"
+					value="Selecionar" 
+					oncomplete="PF('tabelaDisciplinasProfessores').hide()" />
+				
+			</p:dialog>
 			
 		</h:form>
 	</ui:define>
