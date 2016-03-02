@@ -134,15 +134,20 @@ public class CadastroTurmaBean implements Serializable{
 	
 	public void adicionaProfessorTurmaDisciplina() {
 
-		if (this.turma.getProfessores().contains(this.professorSelecionado)
-				&& this.turma.getDisciplinas().contains(this.disciplinaSelecionada)) {
-			FacesUtil.addWarnMessage(
-					"A Disciplina " + this.disciplinaSelecionada.getNome() + " ministrada pelo professor(a) "
-							+ this.professorSelecionado.getNome() + " já foi adicionada a lista");
-			return;
-		}
-		this.turma.getProfessores().add(this.professorSelecionado);
-		this.turma.getDisciplinas().add(this.disciplinaSelecionada);
+//		if (this.turma.getProfessores().contains(this.professorSelecionado)
+//				&& this.turma.getDisciplinas().contains(this.disciplinaSelecionada)) {
+//			FacesUtil.addWarnMessage(
+//					"A Disciplina " + this.disciplinaSelecionada.getNome() + " ministrada pelo professor(a) "
+//							+ this.professorSelecionado.getNome() + " já foi adicionada a lista");
+//			return;
+//		}
+//		
+		this.disciplinaSelecionada.setProfessorDaDisciplina(this.professorSelecionado);
+		
+		this.disciplinaSelecionada.getTurmas().add(this.turma);
+		this.professorSelecionado.getTurmas().add(this.turma);
+		
+		this.turma.getProfessores().put( this.disciplinaSelecionada, this.professorSelecionado);
 	}
 	
 	public void limpar(){

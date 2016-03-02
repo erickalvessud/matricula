@@ -56,25 +56,25 @@
 			
 			
 			<p:dataTable id="disciplinasSelecionadasDataTable"
-				value="#{cadastroTurmaBean.turma.professorTurmaDisciplinas}" 
-				var="professorTurmaDisciplina"
+				value="#{cadastroTurmaBean.turma.professores.entrySet().toArray()}" 
+				var="entry"
 				style="margin-top: 10px;"
 				emptyMessage="Nenhuma registro encontrado!">
 
 				<p:column headerText="Código da Disciplina" style="text-align: center; width: 10%">
-					<h:outputText value="#{professorTurmaDisciplina.disciplina.codigo}" />
+					<h:outputText value="#{entry.key.codigo}" />
 				</p:column>
 				
 				<p:column headerText="Disciplina" style="text-align: center; width: 40%">
-					<h:outputText value="#{professorTurmaDisciplina.disciplina.nome}" />
+					<h:outputText value="#{entry.key.nome}" />
 				</p:column>
 
 				<p:column headerText="Registro do Professor" style="text-align: center; width: 10%">
-					<h:outputText value="#{professorTurmaDisciplina.professor.codigo}" />
+					<h:outputText value="#{entry.value.codigo}" />
 				</p:column>
 
 				<p:column headerText="Professor" style="text-align: center; width: 40%">
-					<h:outputText value="#{professorTurmaDisciplina.professor.nome}" />
+					<h:outputText value="#{entry.value.nome}" />
 				</p:column>
 			</p:dataTable>
 			
