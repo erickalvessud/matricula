@@ -1,5 +1,7 @@
 package br.com.erick.desafioalgaworks4.matricula.modelo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,14 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "disciplina")
-public class Disciplina {
+public class Disciplina implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +28,11 @@ public class Disciplina {
 	@ManyToMany(mappedBy = "disciplinas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Professor> professores;
 	
-	@ManyToMany(mappedBy = "disciplinas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(mappedBy = "professores", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Turma> turmas;
+	
+	@Transient
+	private Professor professorDaDisciplina;
 
 	/**
 	 * @return the codigo
@@ -58,6 +64,9 @@ public class Disciplina {
 	 * @return the professores
 	 */
 	public List<Professor> getProfessores() {
+		if(professores == null){
+			professores = new ArrayList<Professor>();
+		}
 		return professores;
 	}
 	/**
@@ -71,6 +80,9 @@ public class Disciplina {
 	 * @return the turmas
 	 */
 	public List<Turma> getTurmas() {
+		if(turmas == null){
+			turmas = new ArrayList<Turma>();
+		}
 		return turmas;
 	}
 	/**
@@ -78,6 +90,19 @@ public class Disciplina {
 	 */
 	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
+	}
+	
+	/**
+	 * @return the professorDaDisciplina
+	 */
+	public Professor getProfessorDaDisciplina() {
+		return professorDaDisciplina;
+	}
+	/**
+	 * @param professorDaDisciplina the professorDaDisciplina to set
+	 */
+	public void setProfessorDaDisciplina(Professor professorDaDisciplina) {
+		this.professorDaDisciplina = professorDaDisciplina;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

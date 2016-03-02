@@ -1,6 +1,7 @@
 package br.com.erick.desafioalgaworks4.matricula.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,8 +30,8 @@ public class Professor implements Serializable{
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "professor_disciplina", 
-		joinColumns = {@JoinColumn(name = "registro_professor", nullable = false)},
-		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", nullable = false)}
+		joinColumns = {@JoinColumn(name = "registro_professor", referencedColumnName = "registro", nullable = false)},
+		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", referencedColumnName = "codigo", nullable = false)}
 	)
 	private List<Disciplina> disciplinas;
 	
@@ -75,6 +76,9 @@ public class Professor implements Serializable{
 	 * @return the disciplinas
 	 */
 	public List<Disciplina> getDisciplinas() {
+		if(disciplinas == null){
+			disciplinas = new ArrayList<Disciplina>();
+		}
 		return disciplinas;
 	}
 	/**
@@ -89,6 +93,9 @@ public class Professor implements Serializable{
 	 * @return the turmas
 	 */
 	public List<Turma> getTurmas() {
+		if(turmas == null){
+			turmas = new ArrayList<Turma>();
+		}
 		return turmas;
 	}
 	/**

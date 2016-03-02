@@ -2,7 +2,9 @@ package br.com.erick.desafioalgaworks4.matricula.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,25 +32,34 @@ public class Turma implements Serializable{
 	
 	@OneToMany(mappedBy = "turma", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Matricula> matriculas;
-	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	/*
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "professor_turma_disciplina",
 		joinColumns = { @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo", nullable = false)},
-		inverseJoinColumns = { @JoinColumn(name = "registro_professor", referencedColumnName = "registro", nullable = false)}
+		inverseJoinColumns = { @JoinColumn(name = "registro_professor", referencedColumnName = "registro")}
 	)
 	private List<Professor> professores;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "professor_turma_disciplina",
 		joinColumns = { @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo", nullable = false)},
-		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", referencedColumnName = "codigo", nullable = false)}
+		inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina", referencedColumnName = "codigo")}
 	)
 	private List<Disciplina> disciplinas;
+	*/
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "professor_turma_disciplina",
+		joinColumns = { @JoinColumn(name = "codigo_turma", referencedColumnName = "codigo", nullable = false)},
+		inverseJoinColumns = { @JoinColumn(name = "codigo_professor", referencedColumnName = "registro")}
+	)
+	@MapKeyJoinColumn(name = "codigo")
+	private Map<Disciplina, Professor> professores;
 	
 	public Turma() {
 		this.matriculas = new ArrayList<>();
-		this.professores = new ArrayList<>();
-		this.disciplinas = new ArrayList<>();
+		this.professores = new HashMap<>();
+//		this.disciplinas = new ArrayList<>();
 	}
 
 	/**
@@ -92,30 +104,14 @@ public class Turma implements Serializable{
 	/**
 	 * @return the professores
 	 */
-	public List<Professor> getProfessores() {
+	public Map<Disciplina, Professor> getProfessores() {
 		return professores;
 	}
 
 	/**
 	 * @param professores the professores to set
 	 */
-	public void setProfessores(List<Professor> professores) {
+	public void setProfessores(Map<Disciplina, Professor> professores) {
 		this.professores = professores;
 	}
-
-	/**
-	 * @return the disciplinas
-	 */
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
-	}
-
-	/**
-	 * @param disciplinas the disciplinas to set
-	 */
-	public void setDisciplinas(List<Disciplina> disciplinas) {
-		this.disciplinas = disciplinas;
-	}
-	
-	
 }
